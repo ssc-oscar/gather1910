@@ -65,9 +65,9 @@ done | gzip > cgit.kde.org.$DT.heads &
 # https://gitlab.gnome.org/explore/projects?page=300&sort=latest_activity_desc
 # insert username/password to prevend password requests
 for p in {1..300}
-do wget "https://gitlab.gnome.org/explore/projects?page=$p" -O - 2> /dev/null | perl -ane 'chop();if (m|^<a class="text-plain" href="|){s|<a class="text-plain" href="||;s|".*||;s|^/||;print "https://a:a@gitlab.gnome.org/$_\n"}'
+do wget "https://gitlab.gnome.org/explore/projects?page=$p" -O - 2> /dev/null | perl -ane 'chop();if (m|^<a class="text-plain" href="|){s|<a class="text-plain" href="||;s|".*||;s|^/||;print "https://a:a\@gitlab.gnome.org/$_\n"}'
 done | sort -u > gitlab.gnome.org.$DT
-cat gitlab.gnome.org.$DT | while read r; do a=$(git ls-remote $r | awk '{print ";"$1}'); echo $r$a|sed 's/ //g'; done | gzip > gitlab.gnome.org.heads.$DT &
+cat gitlab.gnome.org.$DT | while read r; do a=$(git ls-remote $r | awk '{print ";"$1}'); echo $r$a|sed 's/ //g'; done | gzip > gitlab.gnome.org.$DT.heads &
 
 
 # pages 1-1530 
@@ -133,7 +133,7 @@ cat git.kernel.org.$DT | while read r; do a=$(git ls-remote $r | awk '{print ";"
 
 
 wget http://git.savannah.gnu.org/cgit -O git.savannah.gnu.org.html
-perl -ane "while (m|<td class='sublevel-repo'><a title='[^']*' href='([^']*)'|g){print \"https://git.savannah.gnu.org\$1\n\";}" < git.savannah.gnu.org.html | sed 's|/cgit/|/git/|' | sort -u | > git.savannah.gnu.org.$DT
+perl -ane "while (m|<td class='sublevel-repo'><a title='[^']*' href='([^']*)'|g){print \"https://git.savannah.gnu.org\$1\n\";}" < git.savannah.gnu.org.html | sed 's|/cgit/|/git/|' | sort -u  > git.savannah.gnu.org.$DT
 cat git.savannah.gnu.org.$DT | while read r; do a=$(git ls-remote $r | awk '{print ";"$1}'); echo $r$a|sed 's/ //g'; done | gzip > git.savannah.gnu.org.$DT.heads &
 
 wait
