@@ -98,12 +98,12 @@ curl -o drupal.html  $rhost;
 j=$(perl -e '$e=0;while(<STDIN>){if(m|<h5>This user doesn|){$e=-1;last;};}; print "$e\n"' < drupal.html);
 if [ "$j" -eq "-1" ]; then break; fi;
 #all urls will be stored in ./drupal.com
-perl -ane 'while(m|<span class="project-name">([^<]*)</span>|g){print "https://git.drupalcode.org/project/$1\n"}' < drupal.html>> drupal.com;
+perl -ane 'while(m|<span class="project-name">([^<]*)</span>|g){print "https://git.drupalcode.org/project/$1\n"}' < drupal.html>> drupal.com.$DT;
 if [ `expr $i % 10` -eq 0 ]; then  sleep 2; fi;
 done  
-sed  's|.*/project/|dr:project/|' drupal.com | sort -u | \
+sed  's|.*/project/|dr:project/|' drupal.com.$DT | sort -u | \
 while read r; do git ls-remote $r | grep -E 'refs/heads|HEAD' | sed 's|\s*refs/heads/|;|;s|\s*HEAD|;HEAD|;s|^|'$r';|';
-done | gzip > drupal.com.heads &
+done | gzip > drupal.com.$DT.heads &
 
 
 wget https://android.googlesource.com/ -O android.googlesource.com.html
