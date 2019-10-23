@@ -156,7 +156,7 @@ done
 python3 listU.py bitbucket$DT repos '{ "updated_on" : { "$gt" : "'"$PDTdash"'" } }' full_name | \
   sed "s|^b'||;s|'$||" | sort -u > bitbucket$DT.new
 split -n l/10 -da1 bitbucket$DT.new bitbucket$DT.new.
-for j in {0..8}
+for j in {0..9}
 do cat bitbucket$DT.new.$j | while read r; do
     a=$(git ls-remote bb:$r | awk '{print ";"$1}'); echo bb:$r$a | sed 's/ //g';
   done | gzip > bitbucket$DT.new.$j.heads &
