@@ -2,6 +2,14 @@
 Script to scrape GitHub repos using the GraphQL API
 Obtains all repos that have been updated AFTER a specified date
 Scrapes all repos from that date up to the current time
+This script accept a token file provided as stdand input, where each line a combinations of token string, start date and end date (space is the separator).
+By default, we ran this scipt in 10 multiprocesses, and please change "remaining < #number" accordingly if require more processes.
+Tokens from different accounts are recommended.
+
+Potential problems:
+1. Token got blocked
+2. multiple processes using tokens from same account may result in racing
+3. TBD
 '''
 import requests
 import json
